@@ -44,7 +44,7 @@ public class Archivos {
             respuesta = "Se ha guardado el archivo ";
             salida.write(bystesTxt);
         } catch (Exception e) {
-            respuesta = "Error en el guardado";
+            respuesta = "Error en el guardado de archivo";
         }
         return respuesta;
     }

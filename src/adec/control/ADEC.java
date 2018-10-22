@@ -437,5 +437,17 @@ public class ADEC {
         }
         return n;
     }
+    
+    public static String algoritmoADEC(String cadena){
+        fillAscii();
+        fillC();
+        fillCode();
+        String aux = stringToBinary8Bits(cadena);
+        String aux2 = concat0s1s(aux);
+        String aux3 = finalOutput(aux2);
+        aux2 = stringToBinary4Bits(aux3);
+        aux3 = nuevoValor(aux2);
+        return aux3;
+    }
 
 }
