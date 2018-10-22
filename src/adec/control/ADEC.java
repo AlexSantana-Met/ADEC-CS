@@ -12,9 +12,11 @@ import java.util.Map;
  *
  * @author Alejandro
  */
-public class BinaryConverter {
+public class ADEC {
 
     private static Map<Integer, Character> ascii = new HashMap<>();
+    private static Map<Integer, Character> code = new HashMap<>();
+    private static Map<Integer, Character> c = new HashMap<>();
 
     public static void fillAscii() {
         ascii.put(9, '\t');
@@ -244,12 +246,74 @@ public class BinaryConverter {
         ascii.put(254, '?');
     }
 
-    public static String stringToBinary(String cadena) {
+    public static void fillCode() {
+        code.put(10, 'A');
+        code.put(20, 'B');
+        code.put(30, 'C');
+        code.put(40, 'D');
+        code.put(50, 'E');
+        code.put(60, 'F');
+        code.put(70, 'G');
+        code.put(80, 'H');
+        code.put(11, 'a');
+        code.put(21, 'b');
+        code.put(31, 'c');
+        code.put(41, 'd');
+        code.put(51, 'e');
+        code.put(61, 'f');
+        code.put(71, 'g');
+        code.put(81, 'h');
+    }
+
+    public static void fillC() {
+        c.put(0, 'A');
+        c.put(1, 'B');
+        c.put(2, 'C');
+        c.put(3, 'D');
+        c.put(4, 'E');
+        c.put(5, 'F');
+        c.put(6, 'G');
+        c.put(7, 'H');
+        c.put(8, 'a');
+        c.put(9, 'b');
+        c.put(10, 'c');
+        c.put(11, 'd');
+        c.put(12, 'e');
+        c.put(13, 'f');
+        c.put(14, 'g');
+        c.put(15, 'h');
+    }
+
+    public static String stringToBinary(String cadena, int nB) {
         String salida = "";
         int b, d, exp, n;
+        System.out.println("Total de caracteres: " + cadena.length());
         for (int i = 0; i < cadena.length(); i++) {
-            n = getValue(cadena.charAt(i));
-            System.out.println(n);
+            n = getValueASCII(cadena.charAt(i));
+            exp = b = d = 0;
+            while (n != 0) {
+                d = n % 2;
+                b = b + d * (int) Math.pow(10, exp);
+                exp++;
+                n = n / 2;
+            }
+            String c = String.valueOf(b);
+            while (c.length() < nB) {
+                String x = c;
+                c = "0" + x;
+            }
+            salida = salida.concat(c);
+        }
+        System.out.println(salida.length());
+        return salida;
+    }
+    
+    public static String stringToBinary8Bits(String cadena) {
+        String salida = "";
+        int b, d, exp, n;
+        System.out.println("Total de caracteres: " + cadena.length());
+        for (int i = 0; i < cadena.length(); i++) {
+            n = getValueASCII(cadena.charAt(i));
             exp = b = d = 0;
             while (n != 0) {
                 d = n % 2;
@@ -262,30 +326,111 @@ public class BinaryConverter {
                 String x = c;
                 c = "0" + x;
             }
-            salida = salida.concat(c + " ");
+            salida = salida.concat(c);
         }
+        System.out.println(salida.length());
+        return salida;
+    }
+
+    public static String stringToBinary4Bits(String cadena) {
+        String salida = "";
+        int b, d, exp, n;
+        System.out.println("Total de caracteres: " + cadena.length());
+        for (int i = 0; i < cadena.length(); i++) {
+            n = getValueC(cadena.charAt(i));
+            exp = b = d = 0;
+            while (n != 0) {
+                d = n % 2;
+                b = b + d * (int) Math.pow(10, exp);
+                exp++;
+                n = n / 2;
+            }
+            String c = String.valueOf(b);
+            while (c.length() < 4) {
+                String x = c;
+                c = "0" + x;
+            }
+            salida = salida.concat(c);
+        }
+        System.out.println(salida.length());
         return salida;
     }
 
     public static String concat0s1s(String cadena) {
         String cad = "";
-        boolean b1 = true, b0 = true;
-        int i = 0;
+        boolean b1 = false, b0 = false;
+        int i = 0, cont0 = 0, cont1 = 0, contF = 0;
         while (i < cadena.length()) {
-            while (cadena.charAt(i) == 0) {
-                
+            while (i < cadena.length() && cadena.charAt(i) == '0' && cont0 < 8) {
+                b0 = true;
+                cont0++;
+                b1 = !b0;
+                i++;
             }
-            while (cadena.charAt(i) == 1) {
-                
+            if (b0) {
+                cad = cad.concat(String.valueOf(cont0) + "0");
+                cont0 = 0;
+                b0 = false;
+            }
+            while (i < cadena.length() && cadena.charAt(i) == '1' && cont1 < 8) {
+                b1 = true;
+                cont1++;
+                b0 = !b1;
+                i++;
+            }
+            if (b1) {
+                cad = cad.concat(String.valueOf(cont1) + "1");
+                cont1 = 0;
+                b1 = false;
             }
         }
         return cad;
     }
 
-    public static int getValue(char c) {
+    public static String nuevoValor(String cadena) {
+        int i = 0;
+        String salida = "";
+        while (i < cadena.length()) {
+            if (cadena.substring(i, i + 2).equals("00")) {
+                salida = salida.concat(String.valueOf('0'));
+            } else if (cadena.substring(i, i + 2).equals("01")) {
+                salida = salida.concat(String.valueOf('1'));
+            } else if (cadena.substring(i, i + 2).equals("10")) {
+                salida = salida.concat(String.valueOf('2'));
+            } else if (cadena.substring(i, i + 2).equals("11")) {
+                salida = salida.concat(String.valueOf('3'));
+            }
+            i = i + 2;
+        }
+        return salida;
+    }
+
+    public static String finalOutput(String codigo) {
+        int i = 0, x = -1;
+        String cadena = "";
+        while (i < codigo.length()) {
+            x = Integer.parseInt(codigo.substring(i, i + 2));
+            cadena = cadena.concat(String.valueOf(code.get(x)));
+            i = i + 2;
+        }
+        return cadena;
+    }
+
+    public static int getValueASCII(char c) {
         int n = -1;
         for (Map.Entry<Integer, Character> entry : ascii.entrySet()) {
             if (c == entry.getValue()) {
+                n = entry.getKey();
+                break;
+            }
+        }
+        return n;
+    }
+
+    public static int getValueC(char x) {
+        int n = -1;
+        for (Map.Entry<Integer, Character> entry : c.entrySet()) {
+            if (x == entry.getValue()) {
                 n = entry.getKey();
                 break;
             }

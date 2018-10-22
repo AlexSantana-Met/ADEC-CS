@@ -5,7 +5,7 @@
  */
 package adec.main;
 
-import adec.control.BinaryConverter;
+import adec.control.ADEC;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +20,9 @@ public class PrbADEC {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        BinaryConverter.fillAscii();
+        ADEC.fillAscii();
+        ADEC.fillCode();
+        ADEC.fillC();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String cadena = "";
         boolean ban = false;
@@ -33,8 +35,18 @@ public class PrbADEC {
                 ban = false;
             }
         } while (!ban);
-        String aux = BinaryConverter.stringToBinary(cadena);
+        String aux = ADEC.stringToBinary8Bits(cadena);
         System.out.println("Cadena en Binario: " + aux);
+        String aux2 = ADEC.concat0s1s(aux);
+        System.out.println(aux2);
+        String aux3 = ADEC.finalOutput(aux2);
+        System.out.println(aux3);
+        aux2 = ADEC.stringToBinary4Bits(aux3);
+        System.out.println("Cadena en Binario: " + aux2);
+        aux3 = ADEC.nuevoValor(aux2);
+        System.out.println(aux3);
+//        aux = ADEC.finalOutput(aux3);
+//        System.out.println(aux);
 
     }
 
