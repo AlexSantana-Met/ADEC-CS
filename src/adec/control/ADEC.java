@@ -442,6 +442,7 @@ public class ADEC {
         fillAscii();
         fillC();
         fillCode();
+        nuevoValor(stringToBinary4Bits(finalOutput(concat0s1s(stringToBinary8Bits(cadena)))));
         String aux = stringToBinary8Bits(cadena);
         String aux2 = concat0s1s(aux);
         String aux3 = finalOutput(aux2);
