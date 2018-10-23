@@ -57,7 +57,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
                         contenido = gestion.AbrirTexto(archivo);
                         txtcodigo.setText(contenido);
                         ban = true;
-                        this.jLabel1.setText("Archivo Seleccionado: " + archivo.getName());
+                        this.nameFile.setText("Archivo Seleccionado: " + archivo.getName());
                         this.name.setText(nombreArchivo.substring(0, nombreArchivo.length() - 4));
                         ban2 = false;
                         ruta = archivo.getAbsolutePath();
@@ -236,7 +236,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtcodigo = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        nameFile = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
         jMenuBar2 = new javax.swing.JMenuBar();
@@ -272,15 +272,15 @@ public class VtnPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(410, 650, 99, 29);
+        jButton1.setBounds(410, 650, 77, 23);
 
-        jLabel1.setText("Archivo Seleccionado: Ningun archivo seleccionado");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(20, 570, 380, 40);
+        nameFile.setText("Archivo Seleccionado: Ningun archivo seleccionado");
+        getContentPane().add(nameFile);
+        nameFile.setBounds(20, 570, 380, 40);
 
         jLabel2.setText("Nombre del archivo encriptado:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(20, 620, 230, 20);
+        jLabel2.setBounds(20, 620, 230, 14);
         getContentPane().add(name);
         name.setBounds(20, 650, 360, 40);
 
@@ -398,7 +398,6 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -411,6 +410,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menAbrir;
     private javax.swing.JMenuItem menSalir;
     private javax.swing.JTextField name;
+    private javax.swing.JLabel nameFile;
     private javax.swing.JTextArea txtcodigo;
     // End of variables declaration//GEN-END:variables
 }
