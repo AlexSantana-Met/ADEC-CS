@@ -6,9 +6,14 @@
 package adec.interfaz;
 
 import adec.control.ADEC;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.font.TextAttribute;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -19,6 +24,10 @@ import utils.Archivos;
  * @author EdwinAlejandro
  */
 public class Principal extends javax.swing.JFrame {
+
+    PopUp p;
+    Error e;
+    Correcto c;
 
     /**
      * Creates new form Principal
@@ -31,8 +40,10 @@ public class Principal extends javax.swing.JFrame {
         this.setTitle("ADEC-CS");
         this.jLabel1.setIcon(new ImageIcon("images/fondo.png"));
         this.jLabel4.setIcon(new ImageIcon("images/barra.png"));
-        this.open.setIcon(new ImageIcon("images/file_plus.png"));
-        this.close.setIcon(new ImageIcon("images/close.png"));
+        this.open.setIcon(new ImageIcon("images/file_plus3.png"));
+        this.close.setIcon(new ImageIcon("images/close3.png"));
+        this.info.setIcon(new ImageIcon("images/information3.png"));
+        this.btnAdec.setIcon(new ImageIcon("images/lock_close3.png"));
         this.nameFile.setText("Archivo Seleccionado: Ningun archivo seleccionado");
         this.txtcodigo.setEditable(false);
     }
@@ -49,110 +60,43 @@ public class Principal extends javax.swing.JFrame {
 
     public void AbrirArchivo() {
         boolean ban2 = true;
-//        while (ban2) {
-            if (selecionado.showDialog(this, "Abrir Archivo") == JFileChooser.APPROVE_OPTION) {
-                archivo = selecionado.getSelectedFile();
-                if (archivo.canRead()) {
-                    if (archivo.getName().endsWith(".txt")) {
-                        String nombreArchivo = archivo.getName();
-                        contenido = gestion.AbrirTexto(archivo);
-                        txtcodigo.setText(contenido);
-                        ban = true;
-                        this.nameFile.setText("Archivo Seleccionado: " + archivo.getName());
-                        this.name.setText(nombreArchivo.substring(0, nombreArchivo.length() - 4));
-                        ban2 = false;
-                        ruta = archivo.getAbsolutePath();
-                        System.out.println(ruta);
-                    } else {
-                        ban = true;
-                        JOptionPane.showMessageDialog(null, "Por favor, seleccione un archivo de texto (.txt)",
-                                "Atención", JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-            }
-//        }
-    }
-
-    public void GuardarArchivo() {
-        contenido = txtcodigo.getText();
-        String respuesta = gestion.GuardarTexto(archivo, contenido);
-        if (respuesta == null) {
-            if (GuardarComoTexto()) {
-                FilasDelArchivo();
-            } else {
-                JOptionPane.showMessageDialog(null, "Es necesario guardar el arhivo para ser verificado",
-                        "Atención", JOptionPane.WARNING_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Se ha guardado exitosamente el archivo",
-                    "Guardado Exitoso", JOptionPane.INFORMATION_MESSAGE);
-            FilasDelArchivo();
-        }
-    }
-
-    public boolean GuardarComoTexto() {
-        if (selecionado.showDialog(this, "Guardar Archivo") == JFileChooser.APPROVE_OPTION) {
+        if (selecionado.showDialog(this, "Abrir Archivo") == JFileChooser.APPROVE_OPTION) {
             archivo = selecionado.getSelectedFile();
-            if (archivo.getName().endsWith("txt")) {
-                contenido = txtcodigo.getText();
-                String respuesta = gestion.GuardarTexto(archivo, contenido);
-                if (respuesta != null) {
-                    JOptionPane.showMessageDialog(null, respuesta + archivo.getName());
-                    this.setTitle(archivo.getName());
-                    return true;
+            if (archivo.canRead()) {
+                if (archivo.getName().endsWith(".txt")) {
+                    String nombreArchivo = archivo.getName();
+                    contenido = gestion.AbrirTexto(archivo);
+                    txtcodigo.setText(contenido);
+                    ban = true;
+                    this.nameFile.setText("Archivo Seleccionado: " + archivo.getName());
+                    this.name.setText(nombreArchivo.substring(0, nombreArchivo.length() - 4));
+                    ban2 = false;
+                    ruta = archivo.getAbsolutePath();
+                    System.out.println(ruta);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error",
-                            "Error", JOptionPane.ERROR);
-                    return false;
+                    ban = true;
+                    String error = "<html><body>Por favor, seleccione un archivo <br/>de texto (.txt).</body></html>";
+                    openError(error);
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "El archivo debe ser guardado como formato txt",
-                        "Atención", JOptionPane.INFORMATION_MESSAGE);
-                return false;
             }
-        } else {
-            return false;
-        }
-    }
-
-    public void NuevoArchivo() {
-        String nombre = JOptionPane.showInputDialog(null,
-                "Ingresa el nombre para el archivo de texto: ", "Nuevo archivo") + ".txt";
-        while (nombre.isEmpty() || !nombre.endsWith(".txt")) {
-            nombre = JOptionPane.showInputDialog(null,
-                    "Ingresa el nombre para el archivo de texto:", "Nuevo archivo") + ".txt";
-        }
-        if (!nombre.isEmpty()) {
-            archivo = new File("../../" + nombre);
-            contenido = txtcodigo.getText();
-            String respuesta = gestion.GuardarTexto(archivo, contenido);
-            if (respuesta != null) {
-                JOptionPane.showMessageDialog(null, respuesta + archivo.getName());
-                this.setTitle(archivo.getName());
-            } else {
-                JOptionPane.showMessageDialog(null, "Ha ocurrido un error", "Error", JOptionPane.ERROR);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "El archivo debe ser guardado como formato txt",
-                    "Atención", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public void GuardarArchivoADEC(String texto, String nombre) {
         if (this.getTitle().equals("Nuevo Archivo")) {
-            JOptionPane.showMessageDialog(null, "El archivo debe ser guardado primero como txt",
-                    "Atención", JOptionPane.INFORMATION_MESSAGE);
+            String error = "<html><body>Por favor, el archivo debe ser <br/>guardado primero como txt.</body></html>";
+            openError(error);
         } else {
             archivo = new File(getRuta() + nombre);
             contenido = texto;
             String respuesta = gestion.GuardarTexto(archivo, contenido);
             if (respuesta != null) {
-                JOptionPane.showMessageDialog(null,
-                        respuesta + archivo.getName() + " en la ruta:\n\n " + archivo.getAbsolutePath(), "Exito",
-                        JOptionPane.INFORMATION_MESSAGE);
-//                this.setTitle(archivo.getName());
+                String msj = "<html><body>" + respuesta + "<br/>" + archivo.getName()
+                        + "<br/><br/> En la ruta:<br/>" + archivo.getAbsolutePath() + "</body></html>";
+                openCorrect(msj);
             } else {
-                JOptionPane.showMessageDialog(null, "Ha ocurrido un error", "Error", JOptionPane.ERROR);
+                String error = "<html><body>Ha ocurrido un error.</body></html>";
+                openError(error);
             }
         }
     }
@@ -176,50 +120,37 @@ public class Principal extends javax.swing.JFrame {
         return res;
     }
 
-    public void FilasDelArchivo() {
-        FileReader fr = null;
-        BufferedReader br = null;
-        try {
-            // Apertura del fichero y creacion de BufferedReader para poder
-            // hacer una lectura comoda (disponer del metodo readLine()).
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-            // Lectura del fichero
-            cantidad_filas = 1;
-            while (br.readLine() != null) {
-                cantidad_filas++;
-            }
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-            int i = 0;
-            FilasArchivo = new String[cantidad_filas];
-            System.out.println("Nuevas filas");
-            while ((FilasArchivo[i] = br.readLine()) != null) {
-                System.out.println(FilasArchivo[i]);
-                i++;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // En el finally cerramos el fichero, para asegurarnos
-            // que se cierra tanto si todo va bien como si salta 
-            // una excepcion.
-            try {
-                if (null != fr) {
-                    fr.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
+    private void openError(String error) {
+        if (e == null) {
+            e = new Error(error);
+            e.setVisible(true);
+        } else {
+            e.dispose();
+            e = new Error(error);
+            e.setVisible(true);
         }
     }
 
-    public void limpia() {
-        txtcodigo.setText("");
-        ban = false;
-        archivo = null;
-        this.setTitle("Nuevo Archivo");
-//        tablaEstados.setEnabled(true);
+    private void openCorrect(String msj) {
+        if (c == null) {
+            c = new Correcto(msj);
+            c.setVisible(true);
+        } else {
+            c.dispose();
+            c = new Correcto(msj);
+            c.setVisible(true);
+        }
+    }
+
+    private void openPopUp() {
+        if (p == null) {
+            p = new PopUp();
+            p.setVisible(true);
+        } else {
+            p.dispose();
+            p = new PopUp();
+            p.setVisible(true);
+        }
     }
 
     /**
@@ -233,6 +164,7 @@ public class Principal extends javax.swing.JFrame {
 
         close = new javax.swing.JLabel();
         open = new javax.swing.JLabel();
+        info = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtcodigo = new javax.swing.JTextArea();
         nameFile = new javax.swing.JLabel();
@@ -253,6 +185,12 @@ public class Principal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 closeMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeMouseExited(evt);
+            }
         });
         getContentPane().add(close);
         close.setBounds(370, 10, 30, 30);
@@ -264,9 +202,32 @@ public class Principal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 openMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                openMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                openMouseExited(evt);
+            }
         });
         getContentPane().add(open);
         open.setBounds(10, 10, 110, 30);
+
+        info.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        info.setForeground(new java.awt.Color(255, 255, 255));
+        info.setText("Acerca de");
+        info.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                infoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                infoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                infoMouseExited(evt);
+            }
+        });
+        getContentPane().add(info);
+        info.setBounds(130, 10, 120, 30);
 
         txtcodigo.setColumns(20);
         txtcodigo.setRows(5);
@@ -303,13 +264,18 @@ public class Principal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAdecMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnAdecMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnAdecMouseExited(evt);
+            }
         });
         getContentPane().add(btnAdec);
         btnAdec.setBounds(300, 470, 80, 30);
         getContentPane().add(jLabel4);
         jLabel4.setBounds(0, 0, 400, 50);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\EdwinAlejandro\\Desktop\\ADEC-CS\\images\\fondo.png")); // NOI18N
         jLabel1.setOpaque(true);
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, 0, 400, 540);
@@ -334,16 +300,75 @@ public class Principal extends javax.swing.JFrame {
             if (!name.getText().isEmpty()) {
                 String nombre = name.getText().concat(".as");
                 String convertido = ADEC.algoritmoADEC(txtcodigo.getText());
-//                String convertido = ADEC.concat0s1s(ADEC.stringToBinary8Bits(txtcodigo.getText()));
-//                convertido = ADEC.finalOutput(convertido);
                 GuardarArchivoADEC(convertido, nombre);
             } else {
-                JOptionPane.showMessageDialog(null, "Ingrese el nombre con que se generará el nuevo archivo", "Error", JOptionPane.ERROR_MESSAGE);
+                String error = "<html><body>Ingrese el nombre con que se generará </br>el nuevo archivo.</body></html>";
+                openError(error);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            String error = "<html><body>Seleccione un archivo para poder <br/>generar un nuevo archivo.</body></html>";
+            openError(error);
         }
     }//GEN-LAST:event_btnAdecMouseClicked
+
+    private void openMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openMouseEntered
+        open.setIcon(new ImageIcon("images/file_plus2.png"));
+        open.setForeground(new Color(0, 255, 102));
+    }//GEN-LAST:event_openMouseEntered
+
+    private void openMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openMouseExited
+        open.setIcon(new ImageIcon("images/file_plus3.png"));
+        open.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_openMouseExited
+
+    private void closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseEntered
+        close.setIcon(new ImageIcon("images/close2.png"));
+        close.setForeground(new Color(0, 255, 102));
+    }//GEN-LAST:event_closeMouseEntered
+
+    private void closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeMouseExited
+        close.setIcon(new ImageIcon("images/close3.png"));
+        close.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_closeMouseExited
+
+    private void btnAdecMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdecMouseEntered
+        Font font = btnAdec.getFont();
+        Map<TextAttribute, Object> attributes = new HashMap<>(font.getAttributes());
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        btnAdec.setFont(font.deriveFont(attributes));
+        this.btnAdec.setIcon(new ImageIcon("images/lock_close2.png"));
+        btnAdec.setForeground(new Color(0, 255, 102));
+    }//GEN-LAST:event_btnAdecMouseEntered
+
+    private void btnAdecMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdecMouseExited
+        Font font = btnAdec.getFont();
+        Map<TextAttribute, Object> attributes = new HashMap<>(font.getAttributes());
+        attributes.put(TextAttribute.UNDERLINE, -1);
+        btnAdec.setFont(font.deriveFont(attributes));
+        this.btnAdec.setIcon(new ImageIcon("images/lock_close3.png"));
+        btnAdec.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_btnAdecMouseExited
+
+    private void infoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoMouseClicked
+        if (p == null) {
+            p = new PopUp();
+            p.setVisible(true);
+        } else {
+            p.dispose();
+            p = new PopUp();
+            p.setVisible(true);
+        }
+    }//GEN-LAST:event_infoMouseClicked
+
+    private void infoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoMouseEntered
+        info.setIcon(new ImageIcon("images/information2.png"));
+        info.setForeground(new Color(0, 255, 102));
+    }//GEN-LAST:event_infoMouseEntered
+
+    private void infoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoMouseExited
+        info.setIcon(new ImageIcon("images/information3.png"));
+        info.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_infoMouseExited
 
     /**
      * @param args the command line arguments
@@ -384,6 +409,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel btnAdec;
     private javax.swing.JLabel close;
     private javax.swing.JLabel eti;
+    private javax.swing.JLabel info;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;

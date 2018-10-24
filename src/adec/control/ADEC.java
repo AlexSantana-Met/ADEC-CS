@@ -304,14 +304,13 @@ public class ADEC {
             }
             salida = salida.concat(c);
         }
-        System.out.println(salida.length());
         return salida;
     }
     
     public static String stringToBinary8Bits(String cadena) {
         String salida = "";
         int b, d, exp, n;
-        System.out.println("Total de caracteres: " + cadena.length());
+//        System.out.println("Total de caracteres: " + cadena.length());
         for (int i = 0; i < cadena.length(); i++) {
             n = getValueASCII(cadena.charAt(i));
             exp = b = d = 0;
@@ -328,14 +327,14 @@ public class ADEC {
             }
             salida = salida.concat(c);
         }
-        System.out.println(salida.length());
+//        System.out.println(salida.length());
         return salida;
     }
 
     public static String stringToBinary4Bits(String cadena) {
         String salida = "";
         int b, d, exp, n;
-        System.out.println("Total de caracteres: " + cadena.length());
+//        System.out.println("Total de caracteres: " + cadena.length());
         for (int i = 0; i < cadena.length(); i++) {
             n = getValueC(cadena.charAt(i));
             exp = b = d = 0;
@@ -352,7 +351,7 @@ public class ADEC {
             }
             salida = salida.concat(c);
         }
-        System.out.println(salida.length());
+//        System.out.println(salida.length());
         return salida;
     }
 
