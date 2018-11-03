@@ -298,9 +298,14 @@ public class Principal extends javax.swing.JFrame {
     private void btnAdecMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdecMouseClicked
         if (ban) {
             if (!name.getText().isEmpty()) {
-                String nombre = name.getText().concat(".as");
-                String convertido = ADEC.algoritmoADEC(txtcodigo.getText());
-                GuardarArchivoADEC(convertido, nombre);
+                if (!txtcodigo.getText().isEmpty()) {
+                    String nombre = name.getText().concat(".as");
+                    String convertido = ADEC.algoritmoADEC(txtcodigo.getText());
+                    GuardarArchivoADEC(convertido, nombre);
+                } else {
+                    String error = "<html><body>El archivo no contiene texto.</body></html>";
+                    openError(error);
+                }
             } else {
                 String error = "<html><body>Ingrese el nombre con que se generará </br>el nuevo archivo.</body></html>";
                 openError(error);
