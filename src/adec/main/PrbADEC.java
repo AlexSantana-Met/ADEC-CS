@@ -36,15 +36,30 @@ public class PrbADEC {
             }
         } while (!ban);
         String aux = ADEC.stringToBinary8Bits(cadena);
-        System.out.println("Cadena en Binario: " + aux);
+        System.out.println("Cadena en Binario 8 bits: " + aux);
         String aux2 = ADEC.concat0s1s(aux);
-        System.out.println(aux2);
+        System.out.println("Cadena concat0s1s: " + aux2);
         String aux3 = ADEC.finalOutput(aux2);
-        System.out.println(aux3);
+        System.out.println("Cadena finalOutput: " + aux3);
         aux2 = ADEC.stringToBinary4Bits(aux3);
-        System.out.println("Cadena en Binario: " + aux2);
+        System.out.println("Cadena en Binario 4 bits: " + aux2);
+        int i = 0;
+        String x, cad = "";
+        while (i < aux2.length()) {
+            try {
+                x = aux2.substring(i, i + 4);
+                i = i + 4;
+            } catch (Exception e) {
+                x = aux2.substring(i, aux2.length() - 1);
+                i = aux2.length();
+            }
+            cad = cad.concat(String.valueOf(ADEC.binaryToInt(x)));
+        }
+        System.out.println("CAD: " + cad);
+//        System.out.println("Concat0s1s: "+ ADEC.concat0s1s(aux2));
         aux3 = ADEC.nuevoValor(aux2);
-        System.out.println(aux3);
+        System.out.println("Cadena nuevoValor: " + aux3);
+        System.out.println("Binario a int: " + ADEC.binaryToInt("1010"));
 //        aux = ADEC.finalOutput(aux3);
 //        System.out.println(aux);
     }

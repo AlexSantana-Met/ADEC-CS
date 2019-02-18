@@ -332,7 +332,6 @@ public class ADEC {
     public static String stringToBinary4Bits(String cadena) {
         String salida = "";
         int b, d, exp, n;
-//        System.out.println("Total de caracteres: " + cadena.length());
         for (int i = 0; i < cadena.length(); i++) {
             n = getValueC(cadena.charAt(i));
             exp = b = d = 0;
@@ -349,7 +348,6 @@ public class ADEC {
             }
             salida = salida.concat(c);
         }
-//        System.out.println(salida.length());
         return salida;
     }
 
@@ -444,8 +442,31 @@ public class ADEC {
         String aux2 = concat0s1s(aux);
         String aux3 = finalOutput(aux2);
         aux2 = stringToBinary4Bits(aux3);
-        aux3 = nuevoValor(aux2);
-        return aux3;
+        int i = 0;
+        String x, cad = "";
+        while (i < aux2.length()) {
+            try {
+                x = aux2.substring(i, i + 4);
+                i = i + 4;
+            } catch (Exception e) {
+                x = aux2.substring(i, aux2.length() - 1);
+                i = aux2.length();
+            }
+            cad = cad.concat(String.valueOf(ADEC.binaryToInt(x)));
+        }
+        
+//        aux3 = nuevoValor(aux2);
+//        return aux3;
+        return cad;
+    }
+
+    public static int binaryToInt(String binario) {
+        int n = binario.length() - 1;
+        int valor = 0;
+        for (int i = 0; i < binario.length(); i++) {
+            valor = valor + ((int) Math.pow(2, n--) * Integer.parseInt(String.valueOf(binario.charAt(i))));
+        }
+        return valor;
     }
 
 }

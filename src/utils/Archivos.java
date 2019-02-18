@@ -31,6 +31,7 @@ public class Archivos {
                 char caracter = (char) ascci;
                 contenido += caracter;
             }
+            entrada.close();
         } catch (Exception e) {
         }
         return contenido;
@@ -43,6 +44,7 @@ public class Archivos {
             byte[] bystesTxt = contenido.getBytes();
             respuesta = "Se ha guardado el archivo ";
             salida.write(bystesTxt);
+            salida.close();
         } catch (Exception e) {
             respuesta = "Error en el guardado de archivo";
         }

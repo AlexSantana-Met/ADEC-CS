@@ -9,14 +9,12 @@ import adec.control.ADEC;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.stage.FileChooser;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import utils.Archivos;
 
 /**
@@ -47,8 +45,8 @@ public class Principal extends javax.swing.JFrame {
         this.nameFile.setText("Archivo Seleccionado: Ningun archivo seleccionado");
         this.txtcodigo.setEditable(false);
     }
-
-    JFileChooser selecionado = new JFileChooser();
+    FileChooser select;
+    JFileChooser seleccionado = new JFileChooser();
     File archivo = null;
     Archivos gestion = new Archivos();
     int cantidad_filas = 1;
@@ -60,8 +58,18 @@ public class Principal extends javax.swing.JFrame {
 
     public void AbrirArchivo() {
         boolean ban2 = true;
-        if (selecionado.showDialog(this, "Abrir Archivo") == JFileChooser.APPROVE_OPTION) {
-            archivo = selecionado.getSelectedFile();
+//        select = new FileChooser();
+//        select.setTitle("Seleccionar archivo de texto");
+//        select.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT", "*.txt"));
+//        try {
+//            File arch = select.showOpenDialog(null);
+//        } catch (Exception e) {
+//            System.out.println("Error: " + e.getMessage());
+//            System.out.println("Error: " + e.getLocalizedMessage());
+//            System.out.println("Error: " + e);
+//        }
+        if (seleccionado.showDialog(this, "Seleccionar Archivo") == JFileChooser.APPROVE_OPTION) {
+            archivo = seleccionado.getSelectedFile();
             if (archivo.canRead()) {
                 if (archivo.getName().endsWith(".txt")) {
                     String nombreArchivo = archivo.getName();
@@ -72,7 +80,7 @@ public class Principal extends javax.swing.JFrame {
                     this.name.setText(nombreArchivo.substring(0, nombreArchivo.length() - 4));
                     ban2 = false;
                     ruta = archivo.getAbsolutePath();
-                    System.out.println(ruta);
+//                    System.out.println(ruta);
                 } else {
                     ban = true;
                     String error = "<html><body>Por favor, seleccione un archivo <br/>de texto (.txt).</body></html>";
@@ -93,6 +101,7 @@ public class Principal extends javax.swing.JFrame {
             if (respuesta != null) {
                 String msj = "<html><body>" + respuesta + "<br/>" + archivo.getName()
                         + "<br/><br/> En la ruta:<br/>" + archivo.getAbsolutePath() + "</body></html>";
+                
                 openCorrect(msj);
             } else {
                 String error = "<html><body>Ha ocurrido un error.</body></html>";
@@ -299,7 +308,7 @@ public class Principal extends javax.swing.JFrame {
         if (ban) {
             if (!name.getText().isEmpty()) {
                 if (!txtcodigo.getText().isEmpty()) {
-                    String nombre = name.getText().concat(".as");
+                    String nombre = name.getText().concat(".adec");
                     String convertido = ADEC.algoritmoADEC(txtcodigo.getText());
                     GuardarArchivoADEC(convertido, nombre);
                 } else {
