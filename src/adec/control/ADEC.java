@@ -148,7 +148,7 @@ public class ADEC {
         ascii.put(156, '£');
         ascii.put(157, 'Ø');
         ascii.put(158, '×');
-        ascii.put(159, '?');
+//        ascii.put(159, '?');
         ascii.put(160, 'á');
         ascii.put(161, 'í');
         ascii.put(162, 'ó');
@@ -165,54 +165,54 @@ public class ADEC {
         ascii.put(173, '¡');
         ascii.put(174, '«');
         ascii.put(175, '»');
-        ascii.put(176, '?');
-        ascii.put(177, '?');
-        ascii.put(178, '?');
-        ascii.put(179, '?');
+//        ascii.put(176, '?');
+//        ascii.put(177, '?');
+//        ascii.put(178, '?');
+//        ascii.put(179, '?');
         ascii.put(180, '?');
         ascii.put(181, 'Á');
         ascii.put(182, 'Â');
         ascii.put(183, 'À');
         ascii.put(184, '©');
-        ascii.put(185, '?');
-        ascii.put(186, '?');
-        ascii.put(187, '?');
-        ascii.put(188, '?');
+//        ascii.put(185, '?');
+//        ascii.put(186, '?');
+//        ascii.put(187, '?');
+//        ascii.put(188, '?');
         ascii.put(189, '¢');
         ascii.put(190, '¥');
-        ascii.put(191, '?');
-        ascii.put(192, '?');
-        ascii.put(193, '?');
-        ascii.put(194, '?');
-        ascii.put(195, '?');
-        ascii.put(196, '?');
-        ascii.put(197, '?');
+//        ascii.put(191, '?');
+//        ascii.put(192, '?');
+//        ascii.put(193, '?');
+//        ascii.put(194, '?');
+//        ascii.put(195, '?');
+//        ascii.put(196, '?');
+//        ascii.put(197, '?');
         ascii.put(198, 'ã');
         ascii.put(199, 'Ã');
-        ascii.put(200, '?');
-        ascii.put(201, '?');
-        ascii.put(202, '?');
-        ascii.put(203, '?');
-        ascii.put(204, '?');
-        ascii.put(205, '?');
-        ascii.put(206, '?');
+//        ascii.put(200, '?');
+//        ascii.put(201, '?');
+//        ascii.put(202, '?');
+//        ascii.put(203, '?');
+//        ascii.put(204, '?');
+//        ascii.put(205, '?');
+//        ascii.put(206, '?');
         ascii.put(207, '¤');
         ascii.put(208, 'ğ');
         ascii.put(209, 'Ğ');
         ascii.put(210, 'Ê');
         ascii.put(211, 'Ë');
         ascii.put(212, 'È');
-        ascii.put(213, '?');
+//        ascii.put(213, '?');
         ascii.put(214, 'Í');
         ascii.put(215, 'Î');
         ascii.put(216, 'Ï');
-        ascii.put(217, '?');
-        ascii.put(218, '?');
-        ascii.put(219, '?');
-        ascii.put(220, '?');
+//        ascii.put(217, '?');
+//        ascii.put(218, '?');
+//        ascii.put(219, '?');
+//        ascii.put(220, '?');
         ascii.put(221, '¦');
         ascii.put(222, 'Ì');
-        ascii.put(223, '?');
+//        ascii.put(223, '?');
         ascii.put(224, 'Ó');
         ascii.put(225, 'ß');
         ascii.put(226, 'Ô');
@@ -229,7 +229,7 @@ public class ADEC {
         ascii.put(237, 'İ');
         ascii.put(238, '¯');
         ascii.put(239, '´');
-        ascii.put(240, '?');
+//        ascii.put(240, '?');
         ascii.put(241, '±');
         ascii.put(242, '?');
         ascii.put(243, '¾');
@@ -243,7 +243,7 @@ public class ADEC {
         ascii.put(251, '¹');
         ascii.put(252, '³');
         ascii.put(253, '²');
-        ascii.put(254, '?');
+//        ascii.put(254, '?');
     }
 
     public static void fillCode() {
@@ -263,6 +263,22 @@ public class ADEC {
         code.put(61, 'f');
         code.put(71, 'g');
         code.put(81, 'h');
+//        code.put(10, '0');
+//        code.put(20, '1');
+//        code.put(30, '2');
+//        code.put(40, '3');
+//        code.put(50, '4');
+//        code.put(60, '5');
+//        code.put(70, '6');
+//        code.put(80, '7');
+//        code.put(11, '8');
+//        code.put(21, '9');
+//        code.put(31, 'A');
+//        code.put(41, 'B');
+//        code.put(51, 'C');
+//        code.put(61, 'D');
+//        code.put(71, 'E');
+//        code.put(81, 'F');
     }
 
     public static void fillC() {
@@ -287,7 +303,7 @@ public class ADEC {
     public static String stringToBinary(String cadena, int nB) {
         String salida = "";
         int b, d, exp, n;
-        System.out.println("Total de caracteres: " + cadena.length());
+//        System.out.println("Total de caracteres: " + cadena.length());
         for (int i = 0; i < cadena.length(); i++) {
             n = getValueASCII(cadena.charAt(i));
             exp = b = d = 0;
@@ -446,8 +462,8 @@ public class ADEC {
         String x, cad = "";
         while (i < aux2.length()) {
             try {
-                x = aux2.substring(i, i + 4);
-                i = i + 4;
+                x = aux2.substring(i, i + 8);
+                i = i + 8;
             } catch (Exception e) {
                 x = aux2.substring(i, aux2.length() - 1);
                 i = aux2.length();

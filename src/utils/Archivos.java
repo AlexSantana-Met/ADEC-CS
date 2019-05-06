@@ -34,6 +34,7 @@ public class Archivos {
             entrada.close();
         } catch (Exception e) {
         }
+        System.out.println(contenido.length());
         return contenido;
     }
     
@@ -41,9 +42,9 @@ public class Archivos {
         String respuesta = null;
         try {
             salida = new FileOutputStream(archivo);
-            byte[] bystesTxt = contenido.getBytes();
+            byte[] bytesTxt = contenido.getBytes();
             respuesta = "Se ha guardado el archivo ";
-            salida.write(bystesTxt);
+            salida.write(bytesTxt);
             salida.close();
         } catch (Exception e) {
             respuesta = "Error en el guardado de archivo";

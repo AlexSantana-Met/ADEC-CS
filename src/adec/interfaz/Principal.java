@@ -12,7 +12,9 @@ import java.awt.font.TextAttribute;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.scene.layout.Border;
 import javafx.stage.FileChooser;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import utils.Archivos;
@@ -44,6 +46,8 @@ public class Principal extends javax.swing.JFrame {
         this.btnAdec.setIcon(new ImageIcon("images/lock_close3.png"));
         this.nameFile.setText("Archivo Seleccionado: Ningun archivo seleccionado");
         this.txtcodigo.setEditable(false);
+        this.btnAdec.setText("<html><body>Convertir<br/>ADEC-CS</body></html>");
+        this.btnAdec.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, true));
     }
     FileChooser select;
     JFileChooser seleccionado = new JFileChooser();
@@ -99,9 +103,24 @@ public class Principal extends javax.swing.JFrame {
             contenido = texto;
             String respuesta = gestion.GuardarTexto(archivo, contenido);
             if (respuesta != null) {
+                String x = archivo.getAbsolutePath(), res = "";
+                for (int i = 0; i < x.length(); i++) {
+                    if (x.charAt(i) == '\\') {
+                        res = res.concat(String.valueOf("/"));
+                    } else {
+                        res = res.concat(String.valueOf(x.charAt(i)));
+                    }
+                }
+                String partes[] = res.split("/");
+                x = "";
+                for (int i = 0; i < partes.length - 1; i++) {
+                    if (i < partes.length - 1) {
+                        x = x.concat(partes[i] + "\\");
+                    }
+                }
                 String msj = "<html><body>" + respuesta + "<br/>" + archivo.getName()
-                        + "<br/><br/> En la ruta:<br/>" + archivo.getAbsolutePath() + "</body></html>";
-                
+                        + "<br/><br/> En la ruta:<br/>" + x + "</body></html>";
+
                 openCorrect(msj);
             } else {
                 String error = "<html><body>Ha ocurrido un error.</body></html>";
@@ -185,7 +204,6 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(400, 540));
         getContentPane().setLayout(null);
 
         close.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -249,7 +267,7 @@ public class Principal extends javax.swing.JFrame {
         nameFile.setForeground(new java.awt.Color(255, 255, 255));
         nameFile.setText("Archivo Seleccionado: Ningun archivo seleccionado");
         getContentPane().add(nameFile);
-        nameFile.setBounds(10, 450, 260, 30);
+        nameFile.setBounds(10, 450, 380, 30);
 
         eti.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         eti.setForeground(new java.awt.Color(255, 255, 255));
@@ -281,7 +299,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAdec);
-        btnAdec.setBounds(300, 470, 80, 30);
+        btnAdec.setBounds(290, 490, 100, 40);
         getContentPane().add(jLabel4);
         jLabel4.setBounds(0, 0, 400, 50);
 
@@ -352,6 +370,7 @@ public class Principal extends javax.swing.JFrame {
         btnAdec.setFont(font.deriveFont(attributes));
         this.btnAdec.setIcon(new ImageIcon("images/lock_close2.png"));
         btnAdec.setForeground(new Color(0, 255, 102));
+        btnAdec.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 102), 1, true));
     }//GEN-LAST:event_btnAdecMouseEntered
 
     private void btnAdecMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdecMouseExited
@@ -361,6 +380,7 @@ public class Principal extends javax.swing.JFrame {
         btnAdec.setFont(font.deriveFont(attributes));
         this.btnAdec.setIcon(new ImageIcon("images/lock_close3.png"));
         btnAdec.setForeground(new Color(255, 255, 255));
+        btnAdec.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 1, true));
     }//GEN-LAST:event_btnAdecMouseExited
 
     private void infoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoMouseClicked
