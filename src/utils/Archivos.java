@@ -34,7 +34,7 @@ public class Archivos {
             entrada.close();
         } catch (Exception e) {
         }
-        System.out.println(contenido.length());
+//        System.out.println(contenido.length());
         return contenido;
     }
     

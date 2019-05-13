@@ -327,8 +327,11 @@ public class Principal extends javax.swing.JFrame {
             if (!name.getText().isEmpty()) {
                 if (!txtcodigo.getText().isEmpty()) {
                     String nombre = name.getText().concat(".adec");
+                    Long ti = System.currentTimeMillis(), tf;
                     String convertido = ADEC.algoritmoADEC(txtcodigo.getText());
                     GuardarArchivoADEC(convertido, nombre);
+                    tf = System.currentTimeMillis();
+                    System.out.println("Tiempo: " + (tf - ti));
                 } else {
                     String error = "<html><body>El archivo no contiene texto.</body></html>";
                     openError(error);
